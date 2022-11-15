@@ -1,0 +1,20 @@
+@startuml
+'https://plantuml.com/component-diagram
+
+actor user
+package "REST API" {
+    component "Controller"
+    component "Service"
+    component "Repository"
+}
+
+database "MySQL" as db{
+    folder "table"
+}
+
+user <--> "Controller"
+"Controller" <--> "Service"
+"Service" <--> "Repository"
+"Repository" <--> "table"
+
+@enduml

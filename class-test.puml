@@ -1,0 +1,52 @@
+@startuml
+'https://plantuml.com/class-diagram
+
+class Student {
+    - idStudent: String
+    - name: String
+    - address: String
+
+    + getters and setters
+}
+
+interface JpaRepository<Student, String> {
+}
+
+interface StudentRepository extends JpaRepository {
+    + getStudentByName(name: String)
+}
+
+interface StudentService {
+    + saveStudent(student: Student) : Student
+    + getStudent(idStudent: String): Student
+    + getAllStudent(): List<Student>
+    + editStudent(idStudent: String, name: String, address: String): Student
+    + deleteStudent(idStudent: String): void
+}
+
+class StudentServiceImp implements StudentService {
+    - studentRepository: StudentRepository
+
+    + override saveStudent(student: Student) : Student
+    + override getStudent(idStudent: String): Student
+    + override getAllStudent(): List<Student>
+    + override editStudent(idStudent: String, name: String, address: String): Student
+    + override deleteStudent(idStudent: String): void
+
+}
+
+class StudentController {
+    - studentService: ResponseEntity<StudentService>
+    + saveStudent(student: Student) : ResponseEntity<Student>
+    + getStudent(idStudent: String): ResponseEntity<Student>
+    + getAllStudent(): ResponseEntity<List<Student>>
+    + editStudent(idStudent: String, name: String, address: String): ResponseEntity<Student>
+    + deleteStudent(idStudent: String): ResponseEntity<?>
+}
+
+JpaRepository *- Student
+StudentService o-- Student
+StudentRepository -[dashed]-> StudentServiceImp
+StudentService -[dashed]-> StudentController
+
+@enduml
